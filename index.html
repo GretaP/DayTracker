@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <div>
+        <a href="javascript:Connect()">Click to connect to mood tracker</a>
+    </div>
+
+<!--Trying out input stuff-->
+    <p>Workie workie? <input type="text" id="inputText" value="Type something here" /></p>
+    <button onclick="grabtext()">Workie?</button>
+    <p id="whatthe"></p>
+    
+
+    <div>
+        <p>And for anumber? <input id="mood" type="number" min="1" max="5" onchange="grabmood()"></p>
+        <button>testing</button>
+        <p id="moodwhatthe"></p>
+    </div>
+
+    <script>
+        //trying to make something work
+        function grabtext()
+        {
+            var x = document.getElementById("inputText").value;
+            document.getElementById("whatthe").innerHTML=x
+        }
+
+        function grabmood()
+        {
+            var x = document.getElementById("mood").value;
+            document.getElementById("moodwhatthe").innerHTML=x
+        }
+
+
+        //check if browser supports websockets
+        function Socket()
+        {
+            //create a WebSocket and open it
+            var connection = new WebSocket("mood.gretaparks.com");
+            connection.onopen = function ()
+            {
+                connection.send(JSON.stringify(msg))
+
+            }
+
+            connection.close();
+        }
+        
+
+
+        //          function TestSocket(){if ("WebSocket" in window) {run stuff....}            else{alert("WebSocket is not supported by your browser")}
+        //          For error handling:connection.onerror = function() <-- add stuff     {console.log("Error" + Error)}
+    </script>
+</body>
+</html>
