@@ -33,19 +33,21 @@
         function grabmood()
         {
             var x = document.getElementById("mood").value;
-            document.getElementById("moodwhatthe").innerHTML=x
+            document.getElementById("moodwhatthe").innerHTML = x;
+            console.log("JSON string is: " + JSON.stringify(x));
+          //  SendMood(x)
         }
 
 
         //check if browser supports websockets
-        function Socket()
+        function SendMood(x)
         {
             //create a WebSocket and open it
-            var connection = new WebSocket("mood.gretaparks.com");
-            connection.onopen = function ()
+            var connection = new WebSocket("ws://mood.gretaparks.com");
+            connection.onopen = function (x)
             {
-                connection.send(JSON.stringify(msg))
-
+                connection.send(JSON.stringify(x))
+                console.log("confirm sent JSON string :" + JSON.stringify)
             }
 
             connection.close();
