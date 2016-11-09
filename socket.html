@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        function SocketTest() {
+            //data to send : temporary json
+            var jsondata = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
+            console.log("jsondata set")
+            //create a WebSocket and open it
+            var connection = new WebSocket("ws://mood.gretaparks.com");
+            connection.send(jsondata)
+            console.log("jsondatasent")
+            connection.onmessage = function (m) {
+                console.log('Received From Server: ' + m.data); //log the received message
+            }
+        //    connection.close()
+        }
+        SocketTest()
+    </script>
+</body>
+</html>

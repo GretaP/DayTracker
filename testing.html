@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+</head>
+
+<body>
+
+<p id="testing"></p>
+<p id="myElement" onclick="changeText(this)">Hi there, testing: click on this</p>
+
+<p id="jquerystuff">Jquery is it awesome?</p>
+
+<script>
+    //learning about javascript: change inner html
+    document.getElementById("testing").innerHTML = ("BOO");
+    var storedText = document.getElementById("myElement").innerHTML;
+    //learning about javascript: make something change on click
+    function changeText(id) {
+        if (id.innerHTML == storedText)
+            id.innerHTML = "I believe in magic!";
+        else
+            id.innerHTML = storedText;
+    }
+    
+
+  
+
+//    function changeText2(idElement) {
+//        $('#jquerystuff').onclick
+ //   }
+
+    //create a websocket connecting to server
+    //Possibly put user info in seperate file for GIT?
+    
+
+//    hosturl = "mood.gretaparks.com"
+ //   var websocket = new WebSocket(hosturl)
+</script>
+
+
+</body>
+</html>
