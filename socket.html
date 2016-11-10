@@ -11,12 +11,19 @@
             var jsondata = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
             console.log("jsondata set")
             //create a WebSocket and open it
-            var connection = new WebSocket("ws://mood.gretaparks.com");
-            connection.send(jsondata)
-            console.log("jsondatasent")
+            var connection = new WebSocket("ws://mood.gretaparks.com:8080");
+
+            //event: mstch method signatures for good practice; do not leave blank even if unused
+            connection.onopen = function (event){
+                connection.send(jsondata)
+                console.log("jsondatasent")
+                }
             connection.onmessage = function (m) {
                 console.log('Received From Server: ' + m.data); //log the received message
-            }
+                //choose where this goes later
+                connection.close()
+
+                }
         //    connection.close()
         }
         SocketTest()

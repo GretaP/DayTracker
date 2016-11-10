@@ -2,7 +2,7 @@ import asyncio
 import dbsettings
 import websockets
 
-port=80
+port=8080
 
 #needs a web socket handler for stuffs.
 async def ws_handler(websocket, path):
@@ -11,6 +11,7 @@ async def ws_handler(websocket, path):
     print(clientstring, "received")
     response = "You sent stuff"
     await websocket.send(response)
+    #leave socket open leave to client.  make sure websockets has an auto timeout
 
 
 if __name__ == "__main__":
