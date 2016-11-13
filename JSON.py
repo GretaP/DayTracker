@@ -15,7 +15,7 @@ print ('JSON:', data_string)
 #parsed = json.loads(jsontest)
 #print(jsontest['first name]'])
 
-test = '{"first_name": "Guido", "last_name":"ros"}'
+test = '{"first_name": "Laaaaa", "last_name":"ros"}'
 parsed = json.loads(test)
 print(type(test), "<-- test type")
 #don't know how to use a dictionary in python...

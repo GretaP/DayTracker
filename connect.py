@@ -6,13 +6,15 @@ port=8080
 
 #needs a web socket handler for stuffs.
 async def ws_handler(websocket, path):
-    print("server invoked")
+    #open connetion w/client, get data from them, and send back that data
+    print("client connected")
     clientstring = await websocket.recv()
     print(clientstring, "received")
-    response = "You sent stuff"
+
+    #testing area
+    response = #returned JSON data from parser
     await websocket.send(response)
     #leave socket open leave to client.  make sure websockets has an auto timeout
-
 
 if __name__ == "__main__":
 

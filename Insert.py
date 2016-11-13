@@ -6,19 +6,30 @@ import json
 
 #   collect mood from user by parsing JSON data.
 #   Needs variables: parseinput, mood, later date to exist outside of def
-def parseinput(clientinput):
+def JSONhandler(clientinput):
   #  if (clientinput=="")
+
+    parseinput=''
+    mood = ''
     try:
         parseinput = json.loads(clientinput)
         print(parseinput)
     except:
         print("JSON parseinput error")
+      # need tohandle this/ break
+
 
     try:
         mood = int(parseinput["mood"])
+        print(mood)
+    #create new exception for out of range
     except ValueError as err:
         #later, send request over websocket
         print("ValueError on attempt to parse mood input", err)
+    except TypeError as err:
+        print("Type error:", err)
+
+    #insertmood(mood)
 
 
 #adds entry to database with input mood (1-5) and server based auto timestamp [for now]
@@ -52,9 +63,11 @@ if __name__ == "__main__":
     #  later: remember to include try block for connection issues
 
     #testing JSON, will be from client
-    clientinput = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
-    parseinput = json.loads(clientinput)
-    print(parseinput)
-    mood = int(parseinput["mood"])
+  #  clientinput = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
+    clientinput ="whreeeeeee"
+    returndata = JSONhandler(clientinput)
+   # parseinput = json.loads(clientinput)
+  #  print(parseinput)
+  #  mood = int(parseinput["mood"])
    # datetime = parseinput["date"]
   #  insertmood(mood)
