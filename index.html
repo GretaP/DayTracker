@@ -5,22 +5,24 @@
     <title>Moodtracker</title>
 </head>
 <body>
+<div>
+   <!-- <input id="mood" type="number" min="1" max="5" onchange="grabMood()">-->
+    <button onclick="grabMood" value="1">1: Super Low mood</button>
+    <button onclick="grabMood" value="2">2: Low mood</button>
+    <button onclick="grabMood" value="3">3: Medium mood</button>
+    <button onclick="grabMood" value="4">4: Good mood</button>
+    <button onclick="grabMood" value="5">5: AWESOME mood</button>
+    <br />
+    <br />
+    <button onclick="checkSend">When you have selected a mood, click here to send to the database</button>
 
+</div>
 
     <script>
 
-        /* planning for Sanity - functions needed:
-            Websocket: open , and send / receive messages
-            JSON encoder to SEND to server
-            JSON decoder to RECIEVE message
-            Message Handler to read message and act upon it
-            Later: validation for received inputs
-
-            For html, need to have:
-                buttons for input.  
-                Later: option to set date time manually
-                some type of input to request RECEIPT of data, inc graph/selections for parameters
-        */
+        var dataToSend = {"mood": "", "date": "2016-11-06 23:00:25.689784"}
+       
+        //for later use to parse a return message
         function JSONparser(m)
         {
             try {
@@ -33,10 +35,9 @@
             //might be possible to add a finally that would refresh or reset? =x
         }
 
-        function readMessage(m)
-        {
+        //read a message and print.  Will expand later
+        function readMessage(m) {
             console.log("message received:" + m)
-
         }
 
         //takes JSON data from a previously executed function, sends it to server, gets data back
@@ -59,10 +60,23 @@
             }
         }
 
-        //run stuff:
+        //grabs mood from HTML, inserts it into JSON string
+        function grabMood() {
+            var x = document.getElementById("mood").value;
+            dataToSend["mood"] = x
+            console.log(dataToSend + "<--is the current dictionary datatoSend")
+        }
+
+        function checkSend() {
+            if dataToSend["mood"] = null
+        }
+
+        
+        /*
+        OLD testing run
         data = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
         webSocketConnection(data)
-
+        */
     </script>
 
 </body>
