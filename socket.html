@@ -13,7 +13,7 @@
             //create a WebSocket and open it
             var connection = new WebSocket("ws://mood.gretaparks.com:8080");
 
-            //event: mstch method signatures for good practice; do not leave blank even if unused
+            //event: match method signatures for good practice; do not leave blank even if unused
             connection.onopen = function (event){
                 connection.send(jsondata)
                 console.log("jsondatasent")

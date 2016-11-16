@@ -2,61 +2,65 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Moodtracker</title>
 </head>
 <body>
 
-    <div>
-        <a href="javascript:Connect()">Click to connect to mood tracker</a>
-    </div>
-
-<!--Trying out input stuff-->
-    <p>Workie workie? <input type="text" id="inputText" value="Type something here" /></p>
-    <button onclick="grabtext()">Workie?</button>
-    <p id="whatthe"></p>
-    
-
-    <div>
-        <p>And for anumber? <input id="mood" type="number" min="1" max="5" onchange="grabmood()"></p>
-        <button>testing</button>
-        <p id="moodwhatthe"></p>
-    </div>
 
     <script>
-        //trying to make something work
-        function grabtext()
+
+        /* planning for Sanity - functions needed:
+            Websocket: open , and send / receive messages
+            JSON encoder to SEND to server
+            JSON decoder to RECIEVE message
+            Message Handler to read message and act upon it
+            Later: validation for received inputs
+
+            For html, need to have:
+                buttons for input.  
+                Later: option to set date time manually
+                some type of input to request RECEIPT of data, inc graph/selections for parameters
+        */
+        function JSONparser(m)
         {
-            var x = document.getElementById("inputText").value;
-            document.getElementById("whatthe").innerHTML=x
+            try {JSON.parse(m);}
+            catch (err) {
+                console.log("there was a parsing error" + err)
+                // later:         message.innerHTML = "Input is " + err;
+            }
+            //might be possible to add a finally that would refresh or reset? =x
         }
 
-        function grabmood()
+        function readMessage(m)
         {
-            var x = document.getElementById("mood").value;
-            document.getElementById("moodwhatthe").innerHTML = x;
-            console.log("JSON string is: " + JSON.stringify(x));
-          //  SendMood(x)
+            console.log("message received:" + m)
+
         }
 
-
-        //check if browser supports websockets
-        function SendMood(x)
+        //takes JSON data from a previously executed function, sends it to server, gets data back
+        function webSocketConnection(JSONdata)
         {
-            //create a WebSocket and open it
-            var connection = new WebSocket("ws://mood.gretaparks.com");
-            connection.onopen = function (x)
-            {
-                connection.send(JSON.stringify(x))
-                console.log("confirm sent JSON string :" + JSON.stringify)
+            var connection = new WebSocket("ws://mood.gretaparks.com:8080");
+
+            //send data
+            //note: event stays.  It is good practice to always match method signatures
+            connection.onopen = function (event) {
+                connection.send(JSONdata);
+                console.log("JSONdata sent");
             }
 
-            connection.close();
+            //receive a message from server
+            connection.onmessage = function (m) {
+                console.log("Recieved message from server" + m.data);
+                //SEND data to a parser, which will update the site.
+                //possibly close connection here: connection.close()
+            }
         }
-        
 
+        //run stuff:
+        webSocketConnection()
 
-        //          function TestSocket(){if ("WebSocket" in window) {run stuff....}            else{alert("WebSocket is not supported by your browser")}
-        //          For error handling:connection.onerror = function() <-- add stuff     {console.log("Error" + Error)}
     </script>
+
 </body>
 </html>

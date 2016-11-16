@@ -14,10 +14,15 @@ def JSONhandler(clientinput):
     try:
         parseinput = json.loads(clientinput)
         print(parseinput)
-    except:
-        print("JSON parseinput error")
-      # need tohandle this/ break
+    except Exception as err:
+        #yay we made it cleaner by putting text directly into the function/method call, and returned the jsonstring value directly by return method(stuffs) =D
+        return errhandle(err, "JSON parseinput error")
 
+#old way: switching to errhandle:
+        #print("JSON parseinput error", err)
+        #future: create a logfile to report the error, and send data to it <-- easier than database for now
+        #create JSON string
+        #return JSON string
 
     try:
         mood = int(parseinput["mood"])
@@ -30,6 +35,28 @@ def JSONhandler(clientinput):
         print("Type error:", err)
 
     #insertmood(mood)
+
+class errorobject:
+    errorvalue = ""
+    def toJSON(selfself):
+
+
+def errhandle(err, text):
+    print(text, "error message:", err)
+    #err.message = to log file
+    #text --> JSON
+    errorsend = errorobject()
+    errorsend.errorvalue = text
+
+    #need to create serializer
+    print(json.JSONEncoder().encode(errorsend))
+    #send JSON to client (return JSON string)
+
+#checks if input is an integer between 1 and 5
+#def checkmood(mood):
+#    pass
+
+
 
 
 #adds entry to database with input mood (1-5) and server based auto timestamp [for now]
@@ -45,12 +72,9 @@ def insertmood(mood):
     cur.close()
     conn.close()
 
-#checks if input is an integer between 1 and 5
-def checkmood(mood):
-    pass
 
 #get mood(S) on a given date time range
-def getmoodlog(date):
+def getmoodlog(date1, date2):
     pass
 
 #get average mood, possibly on a date time range
