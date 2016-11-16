@@ -23,7 +23,9 @@
         */
         function JSONparser(m)
         {
-            try {JSON.parse(m);}
+            try {
+                return JSON.parse(m); 
+            }
             catch (err) {
                 console.log("there was a parsing error" + err)
                 // later:         message.innerHTML = "Input is " + err;
@@ -58,7 +60,8 @@
         }
 
         //run stuff:
-        webSocketConnection()
+        data = '{"mood": 4, "date": "2016-11-06 23:00:25.689784"}'
+        webSocketConnection(data)
 
     </script>
 
