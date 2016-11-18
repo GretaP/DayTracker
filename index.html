@@ -17,22 +17,25 @@
     <div id="Info" align="center">
         <h1 id="instruction">Please click on your mood above</h1>
         <h2 id="currentMood"></h2>
-        <button>Click here to send your mood to the database</button>
+
+        <!--later, change function to checkSend, with validation etc-->
+        <button id="sendButton" onclick="temporary()" hidden>Click here to send your mood to the database</button>
     </div>
 
-    <form action="grabMood(this)">
-        <button value="1">testing 1</button>
-        <button value="2">testing 2</button>
-    </form>
-    <br />
-    <br />
-    <!--later, change function to checksend-->
-    <button onclick="checkSend()">When you have selected a mood, click here to send to the database</button>
-    <br />
+
+    <button onclick="temporary()">MAKE TO JSON</button>
 
 </div>
 
     <script>
+
+        function temporary(){
+            SEND = JSON.stringify(dataToSend);
+            console.log("success");
+            console.log(dataToSend);
+            webSocketConnection(SEND);
+            
+        }
 
         //Dictionary to send to the server
         var dataToSend = {"mood": "", "date": "2016-11-06 23:00:25.689784"}
@@ -40,6 +43,7 @@
         //takes JSON data from a previously executed function, sends it to server, gets data back
         function webSocketConnection(JSONdata)
         {
+            //must add in some parsing checks and stuff... might not be here but... yeah.
             var connection = new WebSocket("ws://mood.gretaparks.com:8080");
 
             //send data
@@ -65,10 +69,15 @@
             dataToSend["mood"] = x
             console.log("Current dictionary datatoSend is:")
             console.dir(dataToSend)
-            
+            changeText(x)
         }
 
-
+        //not really necessary as a separate function... but I'm a newbie and I might want to add to this later.
+        function changeText(mood) {
+            document.getElementById("instruction").innerHTML = "Your mood is:";
+            document.getElementById("currentMood").innerHTML = mood;
+            document.getElementById("sendButton").style.display = "block";
+        }
 
         //FUNCTIONS TO USE LATER... 
 

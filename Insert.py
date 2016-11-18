@@ -13,6 +13,7 @@ def insertmood(mood):
     dt = datetime.datetime.now()
     cur.execute("INSERT INTO mood (mood, datetime) VALUES (%s, %s)", (mood, dt))
     conn.commit()
+    print("Mood inserted")
     # close communication with database (avoids problems)
     cur.close()
     conn.close()
