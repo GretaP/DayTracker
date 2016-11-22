@@ -1,14 +1,13 @@
 import asyncio
 import dbsettings
 import websockets
-import json
 import Insert
 
 port=8080
 
-#needs a web socket handler for stuffs.
+
 async def ws_handler(websocket, path):
-    #open connetion w/client, get data from them, and send back that data
+    #open connection w/client, get data from them, and send back that data
     print("client connected")
     clientstring = await websocket.recv()
     print(clientstring, "received")
@@ -17,8 +16,8 @@ async def ws_handler(websocket, path):
     mood = Insert.TempJSONparser(clientstring)
     Insert.insertmood(mood)
 
-    #testing area
-    response = "testing:response from ws_handler" #returned JSON data from parser
+    #later: message will reflect status of program, be in JSON format, etc
+    response = "The server has received your message" #returned JSON data from parser
     await websocket.send(response)
     #leave socket open leave to client.  make sure websockets has an auto timeout
 

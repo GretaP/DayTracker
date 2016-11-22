@@ -2,64 +2,56 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <!--Bootstrap:-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Moodtracker</title>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <!--BOOTSTRAP:-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 </head>
+
 <body>
-<div>
-    <div align="center">
-        <button onclick="grabMood(this)" value="1">1: Super Low mood</button>
-        <button onclick="grabMood(this)" value="2">2: Low mood</button>
-        <button onclick="grabMood(this)" value="3">3: Medium mood</button>
-        <button onclick="grabMood(this)" value="4">4: Good mood</button>
-        <button onclick="grabMood(this)" value="5">5: AWESOME mood</button>
+<div class="page-header" align="center">
+    <h1>Moodtracker <small>input your mood</small></h1>
+</div>
+
+<div class="jumbotron">
+    <!--Set mood level-->
+    <div class="btn-group" role="group" id="buttons">
+        <button class="btn btn-default" onclick="grabMood(this)" value="1" title="1: Super low mood"><img src="1.png" /><br /><p>1: Super low mood</p></button>
+        <button class="btn btn-default" onclick="grabMood(this)" value="2" title="2: Low mood"><img src="2.png" /><p>2: Low mood</p></button>
+        <button class="btn btn-default" onclick="grabMood(this)" value="3" title="3: Medium mood"><img src="3.png" /><p>3: Medium mood</p></button>
+        <button class="btn btn-default" onclick="grabMood(this)" value="4" title="4: Good mood"><img src="4.png" /><p>4: Good mood</p></button>
+        <button class="btn btn-default" onclick="grabMood(this)" value="5" title="5:AWESOME mood"><img src="5.png" /><p>5: AWESOME mood</p></button>
     </div>
 
-    <div id="Info" align="center">
-        <h1 id="instruction">Please click on your mood above</h1>
-        <h2 id="currentMood"></h2>
-
+    <!--After a mood button is clicked, text below changes to reflect user's mood choice, and sendButton is unhidden.
+        sendButton will connect to server and send JSON data stored in var dataToSend-->
+    <div id="userInstructions" align="center">
+        <h2 id="instruction">Please click on your mood above</h2>
         <!--later, change function to checkSend, with validation etc-->
+        <h2 id="serverResponse" hidden></h2>
         <button id="sendButton" onclick="temporary()" hidden>Click here to send your mood to the database</button>
     </div>
 
-
-    <button onclick="temporary()">MAKE TO JSON</button>
+    <!--Next: possibly template out more functional site, including allowing client to add a string, manipulate date time data, etc-->
 
 </div>
 
     <script>
-
-        function temporary(){
-            SEND = JSON.stringify(dataToSend);
-            console.log("success");
-            console.log(dataToSend);
-            webSocketConnection(SEND);
-            
-        }
-
-        //Dictionary to send to the server
-        var dataToSend = {"mood": "", "date": "2016-11-06 23:00:25.689784"}
-
-        //takes JSON data from a previously executed function, sends it to server, gets data back
-        function webSocketConnection(JSONdata)
-        {
-            //must add in some parsing checks and stuff... might not be here but... yeah.
-            var connection = new WebSocket("ws://mood.gretaparks.com:8080");
-
-            //send data
-            //note: event stays.  It is good practice to always match method signatures
-            connection.onopen = function (event) {
-                connection.send(JSONdata);
-                console.log("JSONdata sent");
-            }
-
-            //receive a message from server
-            connection.onmessage = function (m) {
-                console.log("Recieved message from server" + m.data);
-                //SEND data to a parser, which will update the site.
-                //possibly close connection here: connection.close()
-            }
-        }
+        //Variables: Dictionary to send to the server
+        var dataToSend = { "mood": "", "date": "2016-11-06 23:00:25.689784" }
 
         //grabs mood from HTML, inserts it into JSON string
         function grabMood(buttonObject) {
@@ -69,14 +61,50 @@
             dataToSend["mood"] = x
             console.log("Current dictionary datatoSend is:")
             console.dir(dataToSend)
+            //temporary: change text in instruction, and makes button visible
             changeText(x)
         }
 
-        //not really necessary as a separate function... but I'm a newbie and I might want to add to this later.
+        //not really necessary as a separate function... but with more functionality this will change.
         function changeText(mood) {
-            document.getElementById("instruction").innerHTML = "Your mood is:";
-            document.getElementById("currentMood").innerHTML = mood;
+            document.getElementById("instruction").innerHTML = "Your mood is: " + mood;
             document.getElementById("sendButton").style.display = "block";
+        }
+
+        //Turns dictionary into a JSON string, changes text, hides sendButton and calls WebSocketConnection function.
+        //temporary, because there should be validation on stringify, and SuccessMessage will be replaced with "Sending...", and a corresponding server response (success)
+        function temporary(){
+            SEND = JSON.stringify(dataToSend);
+            console.log("success on JSON.stringify.  Sending:");
+            console.log(dataToSend);  //keep this on a seperate line; otherwise details on the object won't be shown
+            //fix text
+            document.getElementById("instruction").innerHTML = "Sending your mood (" + dataToSend["mood"] + ") to server.<br> Click a mood to send another entry.";
+            document.getElementById("sendButton").style.display = "none";
+            //webSocket stuff
+            webSocketConnection(SEND);         
+        }
+
+        //takes JSON data from a previously executed function, sends it to server, gets data back
+        function webSocketConnection(JSONdata)
+        {
+            //next: var connection will be global, in a try block, and exception will ask user to reload page/show error message.
+            var connection = new WebSocket("ws://mood.gretaparks.com:8080");
+            /*send data to server.
+                note: event stays.  It is good practice to always match method signatures */
+            connection.onopen = function (event) {
+                connection.send(JSONdata);
+                console.log("JSONdata sent");   
+            }
+
+            //receive a message from server
+            connection.onmessage = function (m) {
+                console.log("Recieved message from server" + m.data);
+                //Later: add functionality to get actual information from server :)
+                serverMessage = "Message from server: " + m.data
+                document.getElementById("serverResponse").innerHTML = serverMessage;
+                document.getElementById("serverResponse").style.display = "block";
+                //SEND data to a parser, which will update the site.
+            }
         }
 
         //FUNCTIONS TO USE LATER... 
@@ -93,16 +121,11 @@
             //might be possible to add a finally that would refresh or reset? =x
         }
 
-        //read a message and print.  Will expand later
-        function readMessage(m) {
-            console.log("message received:" + m)
-        }
-
-/*        function checkSend() {
+        /* Validate inputs before sending :)
+        function checkSend() {
             if dataToSend["mood"] = null
         }
         */
-
     </script>
 
 </body>
