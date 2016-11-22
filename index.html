@@ -63,7 +63,7 @@
                 <h2 id="serverResponse" hidden></h2>
                     </div>
                 <div class="row-fluid"><div class="col-md-4"></div><div class="col-md-4">
-                <button class="btn btn-success" id="sendButton" onclick="temporary()" hidden>Click here to send your mood to the database</button>
+                <button class="btn btn-success hidden" id="sendButton" onclick="temporary()">Click here to send your mood to the database</button>
                 </div><div class="col-md-4"></div>                    </div>
                 <br />
             </div>
@@ -107,7 +107,7 @@
         //not really necessary as a separate function... but with more functionality this will change.
         function changeText(mood) {
             document.getElementById("instruction").innerHTML = "Your mood is: " + mood;
-            document.getElementById("sendButton").style.display = "block";
+            document.getElementById("sendButton").className= "btn btn-success"
         }
 
         //Turns dictionary into a JSON string, changes text, hides sendButton and calls WebSocketConnection function.
@@ -118,7 +118,7 @@
             console.log(dataToSend);  //keep this on a seperate line; otherwise details on the object won't be shown
             //fix text
             document.getElementById("instruction").innerHTML = "Sending your mood (" + dataToSend["mood"] + ") to server.<br> Click a mood to send another entry.";
-            document.getElementById("sendButton").style.display = "none";
+            document.getElementById("sendButton").className = "btn btn-success hidden"
             //webSocket stuff
             webSocketConnection(SEND);         
         }
