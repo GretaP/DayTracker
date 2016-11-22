@@ -18,35 +18,74 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        .moodbtn{
+            width: 20%;
+            height: 25vw;
+        }
+        .moodbtn p{
+            white-space: normal;
+            font-size: 2.3vw;
+        }
+
+        #userInstructions h2 {
+            font-size: 5vw;
+        }
+        #sendButton {
+            white-space: normal;
+            font-size: 2.5vw;
+        }
+
+    </style>
 
 </head>
 
 <body>
-<div class="page-header" align="center">
-    <h1>Moodtracker <small>input your mood</small></h1>
-</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-header" align="center">
+                <h1>Moodtracker <small>input your mood</small></h1>
+            </div>
+        </div>
 
-<div class="jumbotron">
-    <!--Set mood level-->
-    <div class="btn-group" role="group" id="buttons">
-        <button class="btn btn-default" onclick="grabMood(this)" value="1" title="1: Super low mood"><img src="1.png" /><br /><p>1: Super low mood</p></button>
-        <button class="btn btn-default" onclick="grabMood(this)" value="2" title="2: Low mood"><img src="2.png" /><p>2: Low mood</p></button>
-        <button class="btn btn-default" onclick="grabMood(this)" value="3" title="3: Medium mood"><img src="3.png" /><p>3: Medium mood</p></button>
-        <button class="btn btn-default" onclick="grabMood(this)" value="4" title="4: Good mood"><img src="4.png" /><p>4: Good mood</p></button>
-        <button class="btn btn-default" onclick="grabMood(this)" value="5" title="5:AWESOME mood"><img src="5.png" /><p>5: AWESOME mood</p></button>
-    </div>
 
-    <!--After a mood button is clicked, text below changes to reflect user's mood choice, and sendButton is unhidden.
-        sendButton will connect to server and send JSON data stored in var dataToSend-->
-    <div id="userInstructions" align="center">
-        <h2 id="instruction">Please click on your mood above</h2>
-        <!--later, change function to checkSend, with validation etc-->
-        <h2 id="serverResponse" hidden></h2>
-        <button id="sendButton" onclick="temporary()" hidden>Click here to send your mood to the database</button>
-    </div>
+      
+    <div class="jumbotron">
+        <!--After a mood button is clicked, text below changes to reflect user's mood choice, and sendButton is unhidden.
+    sendButton will connect to server and send JSON data stored in var dataToSend-->
+        <div class="row-fluid">
+            <div id="userInstructions" align="center">
+                <div class="row-fluid">
+                <h2 id="instruction">Please click on your mood below</h2>
+                    </div>
+                <!--later, change function to checkSend, with validation etc-->
+                <div class="row-fluid">
+                <h2 id="serverResponse" hidden></h2>
+                    </div>
+                <div class="row-fluid"><div class="col-md-4"></div><div class="col-md-4">
+                <button class="btn btn-success" id="sendButton" onclick="temporary()" hidden>Click here to send your mood to the database</button>
+                </div><div class="col-md-4"></div>                    </div>
+                <br />
+            </div>
+        </div>
 
-    <!--Next: possibly template out more functional site, including allowing client to add a string, manipulate date time data, etc-->
+        <!--Set mood level-->
+        <div class="row-fluid">
+        <p class="btn-group" role="group" id="buttons">
+            <button class="btn btn-default moodbtn" onclick="grabMood(this)" value="1" title="1: Super low mood"><img class="img-responsive center-block" src="1.png" /><p>1: Super low mood</p></button>
+            <button class="btn btn-default moodbtn" onclick="grabMood(this)" value="2" title="2: Low mood"><img class="img-responsive center-block" src="2.png" /><p>2: Low mood</p></button>
+            <button class="btn btn-default moodbtn" onclick="grabMood(this)" value="3" title="3: Medium mood"><img class="img-responsive center-block" src="3.png" /><p>3: Medium mood</p></button>
+            <button class="btn btn-default moodbtn" onclick="grabMood(this)" value="4" title="4: Good mood"><img class="img-responsive center-block" src="4.png" /><p>4: Good mood</p></button>
+            <button class="btn btn-default moodbtn" onclick="grabMood(this)" value="5" title="5:AWESOME mood"><img class="img-responsive center-block" src="5.png" /><p>5: AWESOME mood</p></button>
+        </div>
+        </div>
+        </div>
 
+
+
+
+            <!--Next: possibly template out more functional site, including allowing client to add a string, manipulate date time data, etc-->
+        </div>
 </div>
 
     <script>
